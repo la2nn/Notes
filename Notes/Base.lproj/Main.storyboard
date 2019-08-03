@@ -41,6 +41,9 @@
                                             <constraint firstAttribute="height" constant="62.5" id="O2e-4M-B68"/>
                                             <constraint firstAttribute="width" constant="62.5" id="eTT-Pg-W5D"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="shouldDrawMark" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5JJ-l9-MVh" customClass="ColorMark" customModule="Notes" customModuleProvider="target">
                                         <rect key="frame" x="211.5" y="223" width="62.5" height="62.5"/>
@@ -49,6 +52,9 @@
                                             <constraint firstAttribute="height" constant="62.5" id="XBv-4b-uy2"/>
                                             <constraint firstAttribute="width" constant="62.5" id="sLt-aH-mHo"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="shouldDrawMark" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <datePicker hidden="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="XGh-Ay-jnJ">
                                         <rect key="frame" x="20" y="193" width="374" height="0.0"/>
@@ -82,6 +88,9 @@
                                             <constraint firstAttribute="width" constant="62.5" id="a8m-Vu-hMu"/>
                                             <constraint firstAttribute="height" constant="62.5" id="nVf-MO-gc6"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="shouldDrawMark" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YKB-zo-fXW" customClass="ColorMark" customModule="Notes" customModuleProvider="target">
                                         <rect key="frame" x="139" y="223" width="62.5" height="62.5"/>
@@ -90,6 +99,9 @@
                                             <constraint firstAttribute="width" constant="62.5" id="bw7-5G-ivR"/>
                                             <constraint firstAttribute="height" constant="62.5" id="cp1-1I-o8u"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="shouldDrawMark" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="GNB-HT-S9x">
                                         <rect key="frame" x="8" y="320.5" width="398" height="29"/>
@@ -194,7 +206,7 @@
         <!--Notes-->
         <scene sceneID="elN-GK-VD3">
             <objects>
-                <navigationController id="jiz-MT-QyS" sceneMemberID="viewController">
+                <navigationController id="jiz-MT-QyS" customClass="NotesNavigationController" customModule="Notes" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Notes" image="NotePic" id="wp1-4Y-AvR"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cQc-og-OoH">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

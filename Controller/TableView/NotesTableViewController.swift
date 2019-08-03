@@ -12,7 +12,9 @@ class NotesTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     let reuseIdentifier = "note cell"
+    var notesNavigationController: NotesNavigationController!
     var isEditingModeEnabled = false
+    var notes = [Note]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +62,23 @@ class NotesTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        guard let nc = navigationController as? NotesNavigationController else { return }
+        notesNavigationController = nc
+        
+        if let downloadedNotesFromServer = notesInCaseOfServerConntectionSuccess {
+            for note in notesNavigationController.notebook.notes {
+                notesNavigationController.notebook.remove(with: note.uid)
+                // Удаляем заметки на диске, в случае если есть доступ к серверу
+            }
+            for note in downloadedNotesFromServer {
+                notesNavigationController.notebook.add(note)
+                // Добавляем заметки с сервера, в случае если к нему есть доступ
+            }
+        }
+        
+        notes = notesNavigationController.notebook.notes
+        
         tableView.register(UINib(nibName: "NoteTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
         tableView.reloadData()
     }
@@ -72,15 +91,15 @@ extension NotesTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filenotebook.notes.count
+        return notes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! NoteTableViewCell
-        cell.titleLabel.text = filenotebook.notes[indexPath.row].title
-        cell.contentLabel.text = filenotebook.notes[indexPath.row].content
-        cell.noteColor.backgroundColor = filenotebook.notes[indexPath.row].noteColor
+        cell.titleLabel.text = notes[indexPath.row].title
+        cell.contentLabel.text = notes[indexPath.row].content
+        cell.noteColor.backgroundColor = notes[indexPath.row].noteColor
         cell.accessoryType = .disclosureIndicator
         
         return cell
@@ -91,13 +110,21 @@ extension NotesTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        noteInStorage.note = filenotebook.notes[indexPath.row]
+        noteInStorage.note = notes[indexPath.row]
         showEditorVC()
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            filenotebook.remove(with: filenotebook.notes[indexPath.row].uid)
+            notesNavigationController.removeNoteQueue.qualityOfService = .userInteractive
+            
+            notesNavigationController.removeNoteQueue.addOperation(RemoveNoteOperation(
+            noteUID: notesNavigationController.notebook.notes[indexPath.row].uid,
+            notebook: notesNavigationController.notebook,
+            backendQueue: notesNavigationController.backendQueue,
+            dbQueue: notesNavigationController.dbQueue))
+            
+            notes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

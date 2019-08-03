@@ -94,28 +94,28 @@ class NoteEditorViewController: UIViewController {
     }
     
     @IBAction func saveNotePressed(_ sender: Any) {
-            var color: UIColor = .green
-            colorUIViews.forEach { if $0.shouldDrawMark {  color = $0.backgroundColor ?? .green } }
-            
-            var importance: Importance = .common
-            switch importanceControl.selectedSegmentIndex {
-                case 0: importance = .unimportant
-                case 1: importance = .common
-                case 2: importance = .important
-                default: break
-            }
-            
-            filenotebook.add(Note(uid: transferedNoteUID ?? nil,
-                                  title: titleField.text ?? "",
-                                  content: contentView.text ?? "",
-                                  noteColor: color,
-                                  importance: importance,
-                                  selfDestructionDate: selfDestructionSwitchOutlet.isOn ? datePicker.date : nil))
-            
-            // Delete old data
-            transferedNoteUID = nil
-            
-            navigationController?.popViewController(animated: true)
+        var color: UIColor = .green
+        colorUIViews.forEach { if $0.shouldDrawMark {  color = $0.backgroundColor ?? .green } }
+        
+        guard let navController = navigationController as? NotesNavigationController else { return }
+        
+        var importance: Importance = .common
+        switch importanceControl.selectedSegmentIndex {
+        case 0: importance = .unimportant
+        case 1: importance = .common
+        case 2: importance = .important
+        default: break
+        }
+        
+        let note = Note(uid: transferedNoteUID ?? nil, title: titleField.text ?? "", content: contentView.text ?? "", noteColor: color, importance: importance, selfDestructionDate: selfDestructionSwitchOutlet.isOn ? datePicker.date : nil)
+        
+        navController.saveNotesQueue.addOperation(SaveNoteOperation(note: note, notebook: navController.notebook, backendQueue: navController.backendQueue, dbQueue: navController.dbQueue))
+        
+        
+        // Delete old data
+        transferedNoteUID = nil
+        
+        navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {

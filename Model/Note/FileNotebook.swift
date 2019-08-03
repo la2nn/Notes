@@ -29,7 +29,6 @@ class FileNotebook {
                 notes.remove(at: number)
             }
             let path = dirurl.path + "/" + note.uid
-            print(path)
             if FileManager.default.fileExists(atPath: path, isDirectory: &isDir) && !isDir.boolValue && note.uid == uid {
                 print("REMOVING - \(note.title)")
                 try? FileManager.default.removeItem(at: filePath)
@@ -42,7 +41,6 @@ class FileNotebook {
         let path = FileNotebook.path
         let dirurl = path.appendingPathComponent(FileNotebook.dir)
         var isDir: ObjCBool = false
-        print(dirurl)
         try? FileManager.default.createDirectory(at: dirurl, withIntermediateDirectories: true, attributes: nil)
         
         if FileManager.default.fileExists(atPath: dirurl.path, isDirectory: &isDir) && isDir.boolValue {
@@ -65,7 +63,7 @@ class FileNotebook {
         var isDir: ObjCBool = false
         if FileManager.default.fileExists(atPath: dirurl.path, isDirectory: &isDir) && isDir.boolValue {
             do {
-                print("LOADING")
+                print("Загрузка заметок с диска...")
                 let folderContent = try FileManager.default.contentsOfDirectory(atPath: dirurl.path)
                 let correctFolderContent = folderContent.filter { !$0.hasPrefix(".") }
                 for noteFile in correctFolderContent {
@@ -81,8 +79,5 @@ class FileNotebook {
         }
     }
     
-    init() {
-        self.loadFromFile()
-    }
 }
 
