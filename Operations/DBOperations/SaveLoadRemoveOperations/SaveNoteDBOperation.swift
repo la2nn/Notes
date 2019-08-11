@@ -1,16 +1,13 @@
 import Foundation
 
 class SaveNoteDBOperation: BaseDBOperation {
-    private let note: Note
     
-    init(note: Note,
-         notebook: FileNotebook) {
-        self.note = note
+    init(note: Note, notebook: FileNotebook) {
         super.init(notebook: notebook)
+        notebook.add(note)
     }
     
     override func main() {
-        notebook.add(note)
         finish()
     }
 }

@@ -18,26 +18,24 @@ class LoadNotesOperation: AsyncOperation {
          dbQueue: OperationQueue) {
         self.notebook = notebook
         
+        loadFromBackend = LoadNotesBackendOperation()
         loadFromDb = LoadNotesDBOperation(notebook: notebook)
-        loadFromBackend = LoadNotesBackendOperation(notes: nil)
+        backendQueue.addOperation(loadFromBackend)
         
         super.init()
 
-        dbQueue.addOperation(loadFromDb)
-        backendQueue.addOperation(loadFromBackend)
+        loadFromBackend.completionBlock = {
+            if let result = self.loadFromBackend.result {
+                switch result {
+                case .failure: print("Some error with server; load data from disk"); dbQueue.addOperation(self.loadFromDb)
+                case .success(let notes): print("Notes successfully downloaded");  notesInCaseOfServerConntectionSuccess = notes
+                }
+            }
+        }
+        
     }
     
     override func main() {
-        switch loadFromBackend.result! {
-        case .success(let notes):
-            print("Заметки успешно загружены с сервера!")
-            notesInCaseOfServerConntectionSuccess = notes
-            // В случае загрузки заметок с сервера, заменяем заметки на диске
-            // Замена осуществляется в NotesTableViewController в методе ViewWillAppear
-        case .failure:
-            break
-        }
-        
         finish()
     }
 }

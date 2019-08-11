@@ -111,7 +111,6 @@ class NoteEditorViewController: UIViewController {
         
         navController.saveNotesQueue.addOperation(SaveNoteOperation(note: note, notebook: navController.notebook, backendQueue: navController.backendQueue, dbQueue: navController.dbQueue))
         
-        
         // Delete old data
         transferedNoteUID = nil
         
@@ -182,9 +181,11 @@ class NoteEditorViewController: UIViewController {
             }
             
             if let destructionDate = note.selfDestructionDate {
-                selfDestructionSwitchOutlet.isOn = true
-                datePicker.date = destructionDate
-                selfDestructionSwitch(selfDestructionSwitchOutlet)
+                if destructionDate.timeIntervalSinceReferenceDate > 0 {
+                    selfDestructionSwitchOutlet.isOn = true
+                    datePicker.date = destructionDate
+                    selfDestructionSwitch(selfDestructionSwitchOutlet)
+                }
             }
             
             // Delete old data

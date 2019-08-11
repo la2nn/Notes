@@ -63,24 +63,34 @@ class NotesTableViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let nc = navigationController as? NotesNavigationController else { return }
-        notesNavigationController = nc
         
-        if let downloadedNotesFromServer = notesInCaseOfServerConntectionSuccess {
-            for note in notesNavigationController.notebook.notes {
-                notesNavigationController.notebook.remove(with: note.uid)
-                // Удаляем заметки на диске, в случае если есть доступ к серверу
-            }
-            for note in downloadedNotesFromServer {
-                notesNavigationController.notebook.add(note)
-                // Добавляем заметки с сервера, в случае если к нему есть доступ
-            }
-        }
+        guard let nc = self.navigationController as? NotesNavigationController else { return }
+        self.notesNavigationController = nc
         
-        notes = notesNavigationController.notebook.notes
+            if let downloadedNotesFromServer = notesInCaseOfServerConntectionSuccess {
+                notesInCaseOfServerConntectionSuccess = nil
+                
+                    self.notesNavigationController.notebook.loadFromFile()
+                
+                    for note in self.notesNavigationController.notebook.notes {
+                        self.notesNavigationController.notebook.remove(with: note.uid)
+                        // Удаляем заметки на диске, в случае если есть доступ к серверу
+                    }
+                    
+                    for note in downloadedNotesFromServer {
+                        self.notesNavigationController.notebook.add(note)
+                        // Добавляем заметки с сервера, в случае если к нему есть доступ
+                    }
+                
+                    self.notes = downloadedNotesFromServer
+                    self.tableView.reloadData()
+                
+            } else {
+                self.notes = self.notesNavigationController.notebook.notes
+                self.tableView.reloadData()
+            }
         
         tableView.register(UINib(nibName: "NoteTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
-        tableView.reloadData()
     }
     
 }

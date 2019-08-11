@@ -25,7 +25,10 @@ struct imageStorage {
     }
 }
 
-var noteInStorage = tempNote()          // contains only one note ; it needs for NoteEditorViewController
-var imagesInStorage = imageStorage()    // contains all photos
-var notesInCaseOfServerConntectionSuccess: [Note]?  // Contains DOWNLOADED FROM SERVER NOTES
+var noteInStorage = tempNote()                        // contains only one note ; it needs for NoteEditorViewController
+var imagesInStorage = imageStorage()                  // contains all photos
+var notesInCaseOfServerConntectionSuccess: [Note]?    // Contains DOWNLOADED FROM SERVER NOTES
 
+var gistID = ""
+var token = "00d3f545f1796063b80ace75bdae916830563e0b"
+var username = "la2nn"

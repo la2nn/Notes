@@ -14,9 +14,10 @@ class RemoveNoteDBOperation: BaseDBOperation {
     init(notebook: FileNotebook, noteUID: String) {
         self.noteUID = noteUID
         super.init(notebook: notebook)
+        notebook.remove(with: noteUID)
     }
     
     override func main() {
-        notebook.remove(with: noteUID)
+        finish()
     }
 }
