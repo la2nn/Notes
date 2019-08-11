@@ -166,7 +166,7 @@ class NoteEditorViewController: UIViewController {
         if let note = transferedNote {
             titleField.text = note.title
             contentView.text = note.content
-            print(note.importance.rawValue)
+
             switch note.importance {
                 case .unimportant: importanceControl.selectedSegmentIndex = 0
                 case .common: importanceControl.selectedSegmentIndex = 1
@@ -174,7 +174,7 @@ class NoteEditorViewController: UIViewController {
             }
             
             switch note.noteColor {
-                case .white: selectedColorView = whiteColorView
+                case UIColor(red: 1, green: 1, blue: 1, alpha: 1): selectedColorView = whiteColorView   // white
                 case .green: selectedColorView = greenColorView
                 case .red: selectedColorView = redColorView
                 default: selectedColorView = colorPickerView; colorPickerView.backgroundColor = note.noteColor

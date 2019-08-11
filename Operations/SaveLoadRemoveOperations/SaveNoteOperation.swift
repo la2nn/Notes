@@ -18,10 +18,7 @@ class SaveNoteOperation: AsyncOperation {
             backendQueue.addOperation(self.saveToBackend)
         }
         
-       // addDependency(saveToBackend)
         saveToBackend.addDependency(saveToDb)
-        
-        //self.addDependency(saveToDb)
         dbQueue.addOperation(saveToDb)
     }
     

@@ -22,15 +22,14 @@ class LoadNotesBackendOperation: BaseBackendOperation {
     }
     
     func gistParse() {
-        guard let url = URL(string: "https://api.github.com/users/\(username)/gists") else { result = .failure(.unreachable) ; self.finish() ; return }
+        guard let url = URL(string: "https://api.github.com/gists") else { result = .failure(.unreachable) ; self.finish() ; return }
         var request = URLRequest(url: url)
         request.setValue("token \(token)", forHTTPHeaderField: "Authorization")
 
         var success = false
         URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { self.result = .failure(.unreachable); self.finish() ; return }
-            guard let gists = try? JSONDecoder().decode([Gist].self, from: data) else
-            { print("some error when parse gist") ; self.finish() ; return }
+            guard let gists = try? JSONDecoder().decode([Gist].self, from: data) else { print("Some error when parse gist"); self.result = .failure(.unreachable) ; self.finish() ; return }
             
             for gist in gists {
                 if gist.files["ios-course-notes-db"] != nil {
@@ -43,7 +42,7 @@ class LoadNotesBackendOperation: BaseBackendOperation {
             }
             
             if success == false {
-                self.result = .failure(.noNotes)
+                self.result = .failure(.fileNotExist)
                 self.finish()
             }
             
@@ -58,21 +57,7 @@ class LoadNotesBackendOperation: BaseBackendOperation {
         URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { return }
             guard let notes = try? JSONDecoder().decode([Note].self, from: data) else { print("Some error when parse file from gist"); self.result = .failure(.noNotes); self.finish() ; return }
-            
-            /* for note in notes {
-                let color = UIColor(red: note.noteColor.red, green: note.noteColor.green, blue: note.noteColor.blue, alpha: note.noteColor.alpha)
-                var importance = Importance.common
-                switch note.importance {
-                    case "common": importance = .common
-                    case "important": importance = .important
-                    case "unimportant": importance = .unimportant
-                    default: importance = .common
-                }
-                
-                let someNote = Note(uid: note.uid, title: note.title, content: note.content, noteColor: color, importance: importance, selfDestructionDate: Date(timeIntervalSinceReferenceDate: note.selfDestructionDate))
-                self.downloadedNotes.append(someNote)
-            } */
-            
+        
             self.downloadedNotes = notes
             
             if self.downloadedNotes.isEmpty {

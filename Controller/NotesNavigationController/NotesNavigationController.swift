@@ -23,8 +23,6 @@ class NotesNavigationController: UINavigationController {
         loadNotesQueue.addOperation(LoadNotesOperation(notebook: notebook, backendQueue: backendQueue, dbQueue: dbQueue))
         //loadNotesQueue.addOperations([LoadNotesOperation(notebook: notebook, backendQueue: backendQueue, dbQueue: dbQueue)], waitUntilFinished: true)
         sleep(3)
-        //OperationQueue.main.waitUntilAllOperationsAreFinished()
-        
     }
 
 }

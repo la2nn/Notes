@@ -23,7 +23,7 @@ struct Note: Codable {
         self.title = try container.decode(String.self, forKey: .title)
         self.content = try container.decode(String.self, forKey: .content)
         let noteColorComponents: [String : CGFloat] = try container.decode([String : CGFloat].self, forKey: .noteColor)
-        self.noteColor = UIColor(red: noteColorComponents["red"] ?? 0, green: noteColorComponents["green"] ?? 0, blue: noteColorComponents["blue"] ?? 0, alpha: noteColorComponents["red"] ?? 1)
+        self.noteColor = UIColor(red: noteColorComponents["red"] ?? 0, green: noteColorComponents["green"] ?? 0, blue: noteColorComponents["blue"] ?? 0, alpha: noteColorComponents["alpha"] ?? 1)
         self.importance = try container.decode(Importance.self, forKey: .importance)
         let date = try container.decode(Double.self, forKey: .selfDestructionDate)
         self.selfDestructionDate = Date(timeIntervalSinceReferenceDate: date)
