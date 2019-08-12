@@ -16,8 +16,8 @@
 		0106914622C9531B00D69440 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0106914322C9531B00D69440 /* Note.swift */; };
 		0106914722C9531B00D69440 /* FileNotebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0106914422C9531B00D69440 /* FileNotebook.swift */; };
 		0106914B22C95EEF00D69440 /* notebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 0106914A22C95EEF00D69440 /* notebook.png */; };
-		010BA01C22FEC33B007B2F74 /* NoteDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010BA01B22FEC33B007B2F74 /* NoteDownload.swift */; };
 		010BA01E22FECDE4007B2F74 /* Gist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010BA01D22FECDE4007B2F74 /* Gist.swift */; };
+		0123104123008C1300C07994 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0123104023008C1300C07994 /* AuthViewController.swift */; };
 		013BFD6E22D9EA00004FD5D1 /* target.png in Resources */ = {isa = PBXBuildFile; fileRef = 013BFD6D22D9EA00004FD5D1 /* target.png */; };
 		0167E3AA22D4A2370063883E /* ColorMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0167E3A922D4A2370063883E /* ColorMark.swift */; };
 		0167E3AC22D4FFD30063883E /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0167E3AB22D4FFD30063883E /* PaletteView.swift */; };
@@ -35,7 +35,6 @@
 		01EA6A7B22F4C428006B3491 /* LoadNotesOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA6A7A22F4C428006B3491 /* LoadNotesOperation.swift */; };
 		01EA6A7D22F4C445006B3491 /* RemoveNoteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA6A7C22F4C445006B3491 /* RemoveNoteOperation.swift */; };
 		01EA6A7F22F4EDA4006B3491 /* NotesNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EA6A7E22F4EDA4006B3491 /* NotesNavigationController.swift */; };
-		01F962A023001AC700DB2957 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F9629F23001AC700DB2957 /* AuthViewController.swift */; };
 		01FB535422E4D79E008B5BE3 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 01FB535222E4D79E008B5BE3 /* 2.jpg */; };
 		01FB535522E4D79E008B5BE3 /* 7.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 01FB535322E4D79E008B5BE3 /* 7.jpeg */; };
 		01FDA7F822E3A81300999181 /* SlideshowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FDA7F722E3A81300999181 /* SlideshowViewController.swift */; };
@@ -75,8 +74,8 @@
 		0106914322C9531B00D69440 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		0106914422C9531B00D69440 /* FileNotebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNotebook.swift; sourceTree = "<group>"; };
 		0106914A22C95EEF00D69440 /* notebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notebook.png; sourceTree = "<group>"; };
-		010BA01B22FEC33B007B2F74 /* NoteDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDownload.swift; sourceTree = "<group>"; };
 		010BA01D22FECDE4007B2F74 /* Gist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gist.swift; sourceTree = "<group>"; };
+		0123104023008C1300C07994 /* AuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		013BFD6D22D9EA00004FD5D1 /* target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = target.png; sourceTree = "<group>"; };
 		0167E3A922D4A2370063883E /* ColorMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMark.swift; sourceTree = "<group>"; };
 		0167E3AB22D4FFD30063883E /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
@@ -94,7 +93,6 @@
 		01EA6A7A22F4C428006B3491 /* LoadNotesOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadNotesOperation.swift; sourceTree = "<group>"; };
 		01EA6A7C22F4C445006B3491 /* RemoveNoteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveNoteOperation.swift; sourceTree = "<group>"; };
 		01EA6A7E22F4EDA4006B3491 /* NotesNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesNavigationController.swift; sourceTree = "<group>"; };
-		01F9629F23001AC700DB2957 /* AuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		01FB535222E4D79E008B5BE3 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		01FB535322E4D79E008B5BE3 /* 7.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 7.jpeg; sourceTree = "<group>"; };
 		01FDA7F722E3A81300999181 /* SlideshowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideshowViewController.swift; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 		010BA01F22FED846007B2F74 /* GistModel */ = {
 			isa = PBXGroup;
 			children = (
-				010BA01B22FEC33B007B2F74 /* NoteDownload.swift */,
 				010BA01D22FECDE4007B2F74 /* Gist.swift */,
 			);
 			path = GistModel;
@@ -331,7 +328,7 @@
 		01F962A123001AD500DB2957 /* AuthViewController */ = {
 			isa = PBXGroup;
 			children = (
-				01F9629F23001AC700DB2957 /* AuthViewController.swift */,
+				0123104023008C1300C07994 /* AuthViewController.swift */,
 			);
 			path = AuthViewController;
 			sourceTree = "<group>";
@@ -498,7 +495,6 @@
 				0106913222C9515900D69440 /* NoteEditorViewController.swift in Sources */,
 				01FF6C5822DFCE07004929B5 /* ColorPickerViewController.swift in Sources */,
 				01EA6A7322F4B991006B3491 /* SaveNotesBackendOperation.swift in Sources */,
-				010BA01C22FEC33B007B2F74 /* NoteDownload.swift in Sources */,
 				01EA6A7922F4C3E3006B3491 /* RemoveNoteDBOperation.swift in Sources */,
 				01FDF44022E24A8300D1467F /* GalleryViewController.swift in Sources */,
 				0106914522C9531B00D69440 /* NoteExtension.swift in Sources */,
@@ -509,7 +505,6 @@
 				0106913022C9515900D69440 /* AppDelegate.swift in Sources */,
 				01EA6A7022F4B991006B3491 /* SaveNoteDBOperation.swift in Sources */,
 				0106914622C9531B00D69440 /* Note.swift in Sources */,
-				01F962A023001AC700DB2957 /* AuthViewController.swift in Sources */,
 				01EA6A6922F4B7D2006B3491 /* SaveNoteOperation.swift in Sources */,
 				01EA6A7122F4B991006B3491 /* BaseDBOperation.swift in Sources */,
 				01FDA7F822E3A81300999181 /* SlideshowViewController.swift in Sources */,
@@ -517,6 +512,7 @@
 				01EA6A6822F4B7D2006B3491 /* AsyncOperation.swift in Sources */,
 				010BA01E22FECDE4007B2F74 /* Gist.swift in Sources */,
 				01FF6C5622DFBD9B004929B5 /* NotesTableViewController.swift in Sources */,
+				0123104123008C1300C07994 /* AuthViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,7 +662,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 99D42X5Q4Q;
 				INFOPLIST_FILE = Notes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -687,7 +683,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 99D42X5Q4Q;
 				INFOPLIST_FILE = Notes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -769,7 +765,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 99D42X5Q4Q;
 				INFOPLIST_FILE = Notes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -30,7 +30,6 @@ class SaveNotesBackendOperation: BaseBackendOperation {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         guard let data = try? JSONEncoder().encode(notesToUpload) else {  result = .failure(.noNotes); finish() ; return }
-        print(String(data: data, encoding: .utf8)!)
         
         let json: [String: Any] =
             ["description" : "ios-course-notes-db",

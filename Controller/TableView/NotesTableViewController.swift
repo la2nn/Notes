@@ -62,8 +62,6 @@ class NotesTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
         guard let nc = self.navigationController as? NotesNavigationController else { return }
         self.notesNavigationController = nc
         
@@ -89,7 +87,8 @@ class NotesTableViewController: UIViewController {
                 self.notes = self.notesNavigationController.notebook.notes
                 self.tableView.reloadData()
             }
-        
+
+
         tableView.register(UINib(nibName: "NoteTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
     }
     

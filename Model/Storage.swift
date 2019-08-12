@@ -30,4 +30,4 @@ var imagesInStorage = imageStorage()                  // contains all photos
 var notesInCaseOfServerConntectionSuccess: [Note]?    // Contains DOWNLOADED FROM SERVER NOTES
 
 var gistID = ""
-var token = "zero"
+var token = ""

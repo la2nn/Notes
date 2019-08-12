@@ -29,13 +29,13 @@ class LoadNotesBackendOperation: BaseBackendOperation {
         var success = false
         URLSession.shared.dataTask(with: request) {(data, response, error) in
             guard let data = data else { self.result = .failure(.unreachable); self.finish() ; return }
-            guard let gists = try? JSONDecoder().decode([Gist].self, from: data) else { print("Some error when parse gist"); self.result = .failure(.unreachable) ; self.finish() ; return }
-            
+            guard let gists = try? JSONDecoder().decode([Gist].self, from: data) else { print("Some error when parse gistFile"); self.result = .failure(.unreachable) ; self.finish() ; return }
             for gist in gists {
                 if gist.files["ios-course-notes-db"] != nil {
                     success = true
                     print("Notes file found; notes will be downloaded from the server.")
                     gistID = gist.id
+                    print("GistID: \(gistID)")
                     self.loadNoteFromGist(rawUrl: gist.files["ios-course-notes-db"]!.raw_url)
                     break
                 }

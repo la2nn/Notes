@@ -29,7 +29,7 @@ class LoadNotesOperation: AsyncOperation {
                 switch result {
                 case .failure(.unreachable): print("Some error with server; load data from disk"); dbQueue.addOperation(self.loadFromDb)
                 case .failure(.noNotes): print("0 notes on server") 
-                case .failure(.fileNotExist): print("File ios-course-notes-db not exists on server; it will be created");                                                            dbQueue.addOperation(self.loadFromDb)
+                case .failure(.fileNotExist): print("File ios-course-notes-db not exists on server; it will be created"); dbQueue.addOperation(self.loadFromDb)
                 case .success(let notes): print("Notes successfully downloaded");  notesInCaseOfServerConntectionSuccess = notes
                 }
             }

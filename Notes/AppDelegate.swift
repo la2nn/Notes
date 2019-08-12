@@ -15,6 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let authVC = AuthViewController()
+        window?.rootViewController = authVC
+        
+        authVC.completion = {
+            print("Your token: \(token)")
+        }
+        
+        window?.makeKeyAndVisible()
+
         return true
     }
 
