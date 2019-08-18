@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import Network
 
 protocol AuthViewControllerDelegate: class {
     func handleTokenChanged(newToken: String)
@@ -22,11 +23,44 @@ final class AuthViewController: UIViewController {
     private let client_secret = "6015cd5a8befb5a92d27db88c83bd7e869af583c"
     private let sсheme = "login"
     private var authCode = ""
-    
+    var monitor: NWPathMonitor?
+    var hasInternet = true
     var completion: (() -> ())?
+    
+    func hasInternetConnection() {
+        monitor = NWPathMonitor()
+        monitor!.pathUpdateHandler = { path in
+            if path.status != .satisfied {
+                print("No connection.")
+                self.hasInternet = false
+            } else {
+                self.hasInternet = true
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Monitor")
+        monitor!.start(queue: queue)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !hasInternet {
+            monitor!.cancel()
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            self.present(sb.instantiateInitialViewController()!, animated: false)
+        }
+        
+    }
+    
+    override func loadView() {
+        super.loadView()
+        hasInternetConnection()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupViews()
         var urlComponents = URLComponents(string: "https://github.com/login/oauth/authorize")
         urlComponents?.queryItems = [
@@ -34,20 +68,13 @@ final class AuthViewController: UIViewController {
             URLQueryItem(name: "scope", value: "gist")
         ]
         let request = URLRequest(url: urlComponents!.url!)
+        
         webView.load(request)
         webView.navigationDelegate = self
-        
-        
     }
     
     private func setupViews() {
         view.backgroundColor = .white
-        
-        /*
-        let activityIndicator = UIActivityIndicatorView(style: .gray)
-        self.view.addSubview(activityIndicator)
-        activityIndicator.center = self.view.center
-        activityIndicator.startAnimating() */
         
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)
@@ -56,8 +83,7 @@ final class AuthViewController: UIViewController {
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.topAnchor.constraint(equalTo: view.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        
+        ])
     }
     
     private var tokenGetRequest: URLRequest? {
@@ -81,6 +107,7 @@ final class AuthViewController: UIViewController {
 extension AuthViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
         if let url = navigationAction.request.url, url.scheme == self.sсheme {
             let targetString = url.absoluteString.replacingOccurrences(of: "#", with: "?")
             guard let components = URLComponents(string: targetString) else { return }
@@ -102,7 +129,6 @@ extension AuthViewController: WKNavigationDelegate {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             self.present(sb.instantiateInitialViewController()!, animated: false)
            
-          //  dismiss(animated: true, completion: nil)
         }
         do {
             decisionHandler(.allow)
