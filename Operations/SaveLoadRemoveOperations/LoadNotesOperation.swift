@@ -7,19 +7,18 @@
 //
 
 import Foundation
+import CoreData
 
 class LoadNotesOperation: AsyncOperation {
-    private let notebook: FileNotebook
     private let loadFromDb: LoadNotesDBOperation
     private var loadFromBackend: LoadNotesBackendOperation
     
-    init(notebook: FileNotebook,
-         backendQueue: OperationQueue,
-         dbQueue: OperationQueue) {
-        self.notebook = notebook
+    init(backendQueue: OperationQueue,
+         dbQueue: OperationQueue,
+         backgroundContext: NSManagedObjectContext) {
         
-        loadFromBackend = LoadNotesBackendOperation()
-        loadFromDb = LoadNotesDBOperation(notebook: notebook)
+        loadFromBackend = LoadNotesBackendOperation(backgroundContext: backgroundContext)
+        loadFromDb = LoadNotesDBOperation(backgroundContext: backgroundContext)
         backendQueue.addOperation(loadFromBackend)
         
         super.init()

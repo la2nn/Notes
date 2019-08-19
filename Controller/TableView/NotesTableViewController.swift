@@ -19,6 +19,21 @@ class NotesTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setting()
+        
+        guard let nc = self.navigationController as? NotesNavigationController else { return }
+        self.notesNavigationController = nc
+        
+        NotificationCenter.default.addObserver(self, selector:
+            #selector(managedObjectContextDidSave(notification:)), name:
+            NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        
+        tableView.register(UINib(nibName: "NoteTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
+    }
+    
+    @objc func managedObjectContextDidSave(notification: Notification) {
+        self.notesNavigationController.backgroundContext.perform {
+            self.notesNavigationController.backgroundContext.mergeChanges(fromContextDidSave: notification)
+        }
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -62,36 +77,21 @@ class NotesTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        guard let nc = self.navigationController as? NotesNavigationController else { return }
-        self.notesNavigationController = nc
         
-            if let downloadedNotesFromServer = notesInCaseOfServerConntectionSuccess {
-                notesInCaseOfServerConntectionSuccess = nil
-                
-                    self.notesNavigationController.notebook.loadFromFile()
-                
-                    for note in self.notesNavigationController.notebook.notes {
-                        self.notesNavigationController.notebook.remove(with: note.uid)
-                        // Удаляем заметки на диске, в случае если есть доступ к серверу
-                    }
-                    
-                    for note in downloadedNotesFromServer {
-                        self.notesNavigationController.notebook.add(note)
-                        // Добавляем заметки с сервера, в случае если к нему есть доступ
-                    }
-                
-                    self.notes = downloadedNotesFromServer
-                    self.tableView.reloadData()
-                
-            } else {
-                self.notes = self.notesNavigationController.notebook.notes
-                self.tableView.reloadData()
-            }
-
-
-        tableView.register(UINib(nibName: "NoteTableViewCell", bundle: nil), forCellReuseIdentifier: reuseIdentifier)
+        
+        if let downloadedNotesFromServer = notesInCaseOfServerConntectionSuccess {
+            notesInCaseOfServerConntectionSuccess = nil
+            
+            notesFromCoreData = downloadedNotesFromServer
+            // Заменяем заметки на диске, в случае если есть доступ к серверу
+            
+            self.notes = downloadedNotesFromServer
+            self.tableView.reloadData()
+        } else {
+            self.notes = notesFromCoreData
+            self.tableView.reloadData()
+        }
     }
-    
 }
 
 extension NotesTableViewController: UITableViewDataSource, UITableViewDelegate {
@@ -128,13 +128,14 @@ extension NotesTableViewController: UITableViewDataSource, UITableViewDelegate {
             notesNavigationController.removeNoteQueue.qualityOfService = .userInteractive
             
             notesNavigationController.removeNoteQueue.addOperation(RemoveNoteOperation(
-            noteUID: notesNavigationController.notebook.notes[indexPath.row].uid,
-            notebook: notesNavigationController.notebook,
+            note: notes[indexPath.row],
             backendQueue: notesNavigationController.backendQueue,
-            dbQueue: notesNavigationController.dbQueue))
+            dbQueue: notesNavigationController.dbQueue,
+            backgroundContext: notesNavigationController.backgroundContext))
             
             notes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            notesFromCoreData.remove(at: indexPath.row)
         }
     }
     

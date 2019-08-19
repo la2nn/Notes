@@ -6,20 +6,19 @@
 //  Copyright © 2019 nnick. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 class RemoveNoteOperation: AsyncOperation {
     private let noteUID: String
-    private let notebook: FileNotebook
     private let removeDBOperation: RemoveNoteDBOperation
     private var saveToBackend: SaveNotesBackendOperation
     
-    init(noteUID: String, notebook: FileNotebook, backendQueue: OperationQueue, dbQueue: OperationQueue) {
-        self.noteUID = noteUID
-        self.notebook = notebook
-    
-        removeDBOperation = RemoveNoteDBOperation(notebook: notebook, noteUID: noteUID)
-        saveToBackend = SaveNotesBackendOperation(notes: notebook.notes)
+    init(note: Note, backendQueue: OperationQueue, dbQueue: OperationQueue, backgroundContext: NSManagedObjectContext) {
+        self.noteUID = note.uid
+        
+        removeDBOperation = RemoveNoteDBOperation(note: note, backgroundContext: backgroundContext)
+        saveToBackend = SaveNotesBackendOperation(notes: notesFromCoreData)
         super.init()
 
         dbQueue.addOperation(removeDBOperation)

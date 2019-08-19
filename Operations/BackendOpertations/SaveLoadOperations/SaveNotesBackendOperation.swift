@@ -40,7 +40,7 @@ class SaveNotesBackendOperation: BaseBackendOperation {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             if gistID.isEmpty {
-                print("Seems that there no ios-course-notes-db file... Creating...")
+                print("Seems that there no ios-course-notes-db file... Trying create if internet connection are available...")
                 if let dataNotNil = data {
                     do {
                         let createdGist = try JSONDecoder().decode(Gist.self, from: dataNotNil)

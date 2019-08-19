@@ -6,7 +6,8 @@
 //  Copyright © 2019 nnick. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 enum LoadNotesBackendResult {
     case success([Note])
@@ -16,6 +17,12 @@ enum LoadNotesBackendResult {
 class LoadNotesBackendOperation: BaseBackendOperation {
     var result: LoadNotesBackendResult!
     var downloadedNotes = [Note]()
+    let backgroundContext: NSManagedObjectContext
+    
+    init(backgroundContext: NSManagedObjectContext) {
+        self.backgroundContext = backgroundContext
+        super.init()
+    }
     
     override func main() {
         gistParse()
@@ -67,10 +74,63 @@ class LoadNotesBackendOperation: BaseBackendOperation {
                 self.result = .success(self.downloadedNotes)
             }
             
+            self.removeAllNotesMO(backgroundContext: self.backgroundContext)
+            self.addNewNotes(backgroundContext: self.backgroundContext, newNotes: self.downloadedNotes)
             self.finish()
 
         }.resume()
 
     }
+    
+    func removeAllNotesMO(backgroundContext: NSManagedObjectContext) {
+        let request: NSFetchRequest<NoteMO> = NoteMO.fetchRequest()
+        
+        do {
+            let notesMO = try backgroundContext.fetch(request)
+            for note in notesMO {
+                backgroundContext.delete(note)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        backgroundContext.performAndWait {
+            do {
+                try backgroundContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func addNewNotes(backgroundContext: NSManagedObjectContext, newNotes: [Note]) {
+        for note in newNotes {
+            let noteMO = NoteMO.init(context: backgroundContext)
+            noteMO.uid = note.uid
+            noteMO.title = note.title
+            noteMO.content = note.content
+            noteMO.importance = note.importance.rawValue
+            noteMO.destuctionDate = note.selfDestructionDate as NSDate?
+            
+            var red: CGFloat = 0
+            var green: CGFloat = 0
+            var blue: CGFloat = 0
+            var alpha: CGFloat = 0
+            note.noteColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            
+            noteMO.noteColor = NSDictionary(dictionary: ["red": NSNumber.FloatLiteralType(red), "green": NSNumber.FloatLiteralType(green), "blue": NSNumber.FloatLiteralType(blue), "alpha": NSNumber.FloatLiteralType(alpha)])
+        }
+            
+            backgroundContext.performAndWait {
+                do {
+                    try backgroundContext.save()
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        
+    }
+    
+    
     
 }

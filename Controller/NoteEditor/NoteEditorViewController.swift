@@ -109,7 +109,7 @@ class NoteEditorViewController: UIViewController {
         
         let note = Note(uid: transferedNoteUID ?? nil, title: titleField.text ?? "", content: contentView.text ?? "", noteColor: color, importance: importance, selfDestructionDate: selfDestructionSwitchOutlet.isOn ? datePicker.date : nil)
         
-        navController.saveNotesQueue.addOperation(SaveNoteOperation(note: note, notebook: navController.notebook, backendQueue: navController.backendQueue, dbQueue: navController.dbQueue))
+        navController.saveNotesQueue.addOperation(SaveNoteOperation(note: note, backendQueue: navController.backendQueue, dbQueue: navController.dbQueue, backgroundContext: navController.backgroundContext))
         
         // Delete old data
         transferedNoteUID = nil
